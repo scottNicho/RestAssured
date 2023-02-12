@@ -3,6 +3,7 @@
 #include<vector>
 #include<iostream>
 #include<map>
+#include"order.h"
 
 using namespace std;
 
@@ -13,7 +14,8 @@ struct table {
 	unsigned int numberOfPeople;
 	bool occupied;
 
-
+private:
+	order* ThisTablesOrder = nullptr;
 };
 
 
@@ -38,9 +40,7 @@ public:
 		bill
 	};
 
-	ServingProgress SP = seated;
-
-	std::string progress;
+	
 
 	void getCurrentProgress() {
 		switch (SP) {
@@ -89,66 +89,27 @@ public:
 		}
 	}
 
-	bool passwordTest() {
-		string tryUserName;
-		string tryPassword;
-		cout << "please enter your username" << endl;
-		cin >> tryUserName;
-		cout << "please enter your password" << endl;
-		cin >> tryPassword;
-		if (UsernamePasswordMap[tryUserName] == tryPassword) {
-			return true;
-		}
-		return false;
-	}
+	bool passwordTest();
 
-	void checkForTablesInUse() {
-		TablesInUse.clear();
-		for (int i(0); i < allTables.size(); i++) {
-			if (allTables[i]->occupied) {
-				TablesInUse.push_back(allTables[i]);
-			}
-		}
-	}
+	void checkForTablesInUse();
 
-	void checkForTablesNotInUse() {
-		for (int i(0); i < TablesInUse.size(); i++) {
-			if (TablesInUse[i]->occupied == false) {
-				TablesInUse.erase(TablesInUse.begin() + i);
-			}
-		}
-	}
+	void checkForAvailableTablesNot();
 
-	void updateTablesInUse() {
-		checkForTablesInUse();
-		checkForTablesNotInUse();
-	}
+	void checkForTablesNotInUse();
 
-	table* getTable() {
-		while (1) {
-			int tableIndex;
-			cout << "What table number do you need?" << endl;
-			cin >> tableIndex;
-			try {
-				if (tableIndex > 0) {
-					return allTables[tableIndex - 1];
-				}
-				else
-				{
-					throw(tableIndex);
-				}
-			}
-			catch (int lowTableNum) {
-				cout << "table number is too low. \n please input a valid table number" << endl;
-			}
-		}
-	}
+	void updateTablesInUse();
 
-	//instantiate tables
+	table* getTable();
+
+	void AddToTablesToSelect(unsigned int NumSeatsRequired);
+
+	void startTableOrder(table *TableToInitilise) {
+
+	}
     
 
 
-protected:
+//protected:
 
 	unsigned int assignedTableNumber;
 
@@ -157,15 +118,16 @@ protected:
 	string exampleUsername;
 	string examplePassword;
 
-	table assignedTable;
+	table* assignedTable;
 
-	static vector<table> availableTables;
+	static vector<table*> availableTables;
 	static vector<table*> TablesInUse;
-	static vector<table> TablesToSelect;
+	static vector<table*> TablesToSelectFrom; //tables big enought for the party
 	static const vector<table*>  allTables;
 	
+	ServingProgress SP = seated;
 
+	std::string progress;
 };
 	
-
 
