@@ -5,11 +5,17 @@
 #include <string>
 #include <vector>
 #include<map>
+#include "CashRegister.h"
 
 using namespace std;
 
 
 struct timer {
+
+	timer(){
+		toggleTimerOn();
+		timing();
+	}
 
 	bool timerOn = false;
 	int seconds = 0;
@@ -48,6 +54,14 @@ struct timer {
 		hours = 0;
 	}
 
+	void resetTimer() {  // resets the full timer
+		resetSeconds();
+		resetTenSeconds();
+		resetMinutes();
+		resetTenMinutes();
+		resetHours();
+	}
+
 	void timing() {
 		while (timerOn) {
 			seconds++;
@@ -76,10 +90,28 @@ struct timer {
 
 
 struct menuItems {
-	int quantity;
-	int price;
+	float price;
 	string itemDescription;
 };
+
+//instances of menuItems
+//struct menuItems Arrabbiata {
+//	10.90f,
+//    "Spicy tomato garlic sauce and spirali with roasted red pepper, red onion, chillies & rocket"
+//
+//};
+//
+//struct menuItems Margherita {
+//	9.90f,
+//    "Tomato and mozzarella"
+//};
+//   
+//struct menuItems Sirloin_Steak {
+//	18.90,
+//    "Our 8oz* sirloin steak, sautéed mushrooms, roasted tomato & onion rings"
+//};
+//
+////instances of menuItems
 
 struct specialDeals {
 	vector <menuItems> special = {};
@@ -98,53 +130,35 @@ struct specialDeals {
 class order {
 public:
 
+	order();
 
-	timer OrderTime;
+	~order();
+
+	timer *OrderTime;
+	timer *timeBetweenOrders;
 	
 	void addItemToOrder(menuItems selectedItem) {
 		currentOrder.push_back(selectedItem);
 	}
 
-	void removeItemFromOrder() {
-		if (currentOrder.size() == 0) {
-			exit(0);
-		}
-		currentOrder.pop_back();
-	}
+	void removeItemFromOrder();
 
 	void addItemToTotalOrder(menuItems selectedItem) {
 		totalOrder.push_back(selectedItem);
 	}
 
-	void removeItemFromTotalOrder() {
-		if (totalOrder.size() == 0) {
-			exit(0);
-		}
-		totalOrder.pop_back();
-	}
+	void removeItemFromTotalOrder();
 
-	void addItemToMenueMap() {
-		string newItemName;
-		string newItemDescription;
-		int newItemCost;
-		cout << "What is the name of the item you wish to add?" << endl;
-		getline(cin, newItemName);
-		menueMap[newItemName];
-		cout << "Thank you. What is the cost of the item please?"<<endl;
-		cin >> newItemCost;
-		menueMap[newItemName].price = newItemCost;
-		cout << "thank you. Please give a succinct description of the item";
-		getline(cin, newItemDescription);
-		menueMap[newItemName].itemDescription = newItemDescription;
-		cout << menueMap.size();
-	}
-
+	void addItemToMenueMap();
 
 	void AddItemPriceToRunningCost(int ItemCost) {
 		costtings->AddToRunningPrice(ItemCost);
 	}
 
-
+	//menue map size for testing
+	int getMenueMapSize() {
+		return menueMap.size();
+	}
 
 protected:
 
