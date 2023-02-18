@@ -6,87 +6,10 @@
 #include <vector>
 #include<map>
 #include "CashRegister.h"
+#include"servingProgress.h"
 
 using namespace std;
 
-
-struct timer {
-
-	timer(){
-		toggleTimerOn();
-		timing();
-	}
-
-	bool timerOn = false;
-	int seconds = 0;
-	int tenSeconds = 0;
-	int minutes = 0;
-	int tenMinutes = 0;
-	int hours = 0;
-
-	void toggleTimerOn() {
-		if (timerOn == false) {
-			timerOn = true;
-		}
-		else
-		{
-			timerOn = false;
-		}
-	}
-
-
-	void resetSeconds() {
-		seconds = 0;
-	}
-
-	void resetTenSeconds() {
-		tenSeconds = 0;
-	}
-
-	void resetMinutes() {
-		minutes = 0;
-	}
-
-	void resetTenMinutes() {
-		tenMinutes = 0;
-	}
-	void resetHours() {
-		hours = 0;
-	}
-
-	void resetTimer() {  // resets the full timer
-		resetSeconds();
-		resetTenSeconds();
-		resetMinutes();
-		resetTenMinutes();
-		resetHours();
-	}
-
-	void timing() {
-		while (timerOn) {
-			seconds++;
-			if (seconds == 10) {
-				resetSeconds();
-				tenSeconds++;
-				if (tenSeconds == 6) {
-					resetTenSeconds();
-					minutes++;
-					if (minutes == 10) {
-						resetMinutes();
-						tenMinutes++;
-						if (tenMinutes == 6) {
-							resetTenMinutes();
-							hours++;
-						}
-					}
-				}
-			}
-			cout << hours << ": " << tenMinutes << minutes << ": " << tenSeconds << seconds << endl;
-			Sleep(1000);
-		}
-	}
-
-};
 
 
 struct menuItems {
@@ -134,9 +57,11 @@ public:
 
 	~order();
 
-	timer *OrderTime;
-	timer *timeBetweenOrders;
 	
+	servingProgress* getOrderProgress() {
+		return orderProgress;
+	}
+
 	void addItemToOrder(menuItems selectedItem) {
 		currentOrder.push_back(selectedItem);
 	}
@@ -166,6 +91,6 @@ protected:
 	vector<menuItems> totalOrder;
 	vector<menuItems> currentOrder;
 	CashRegister* costtings;
-
+	servingProgress* orderProgress;
 
 };
