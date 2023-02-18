@@ -5,13 +5,15 @@ order::order() {
 	totalOrder = {};
 	currentOrder = {};
 	costtings = new CashRegister();
+	orderProgress = new servingProgress();
 	menueMap["Arrabbiata"] = menuItems{10.90,"Spicy tomato garlic sauce and spirali with roasted red pepper, red onion, chillies & rocket"};
 	menueMap["Margherita"] = menuItems{ 9.90,"Tomato and mozzarella" };
-	menueMap["Sirloin Steak"] = menuItems{ 18.90,"Our 8oz* sirloin steak, sautéed mushrooms, roasted tomato & onion rings" };
+	menueMap["Sirloin Steak"] = menuItems{ 18.90,"Our 8oz* sirloin steak, sautÃ©ed mushrooms, roasted tomato & onion rings" };
 }
 
 order::~order() {
 	delete costtings;
+	delete orderProgress;
 }
 
 void order::removeItemFromOrder() {
