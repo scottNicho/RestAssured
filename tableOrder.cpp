@@ -72,7 +72,9 @@ void tableOrder::updateTablesInUse() {
 	checkForAvailableTablesNot();
 }
 
-
+table* tableOrder::getTable2(unsigned int tabNum) {
+	return allTables[tabNum - 1];
+}
 
 table* tableOrder::getTable() {
 	while (1) {
